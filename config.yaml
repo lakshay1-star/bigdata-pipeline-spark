@@ -1,0 +1,30 @@
+# Configuration for the Big Data Pipeline
+
+# File Paths
+input_data_path: "data/container_data.csv"
+output_metrics_path: "results/metrics.txt"
+log_file_path: "logs/pipeline.log"
+
+# Spark Application
+app_name: "ContainerVolumeForecasting"
+
+# Feature Engineering
+string_indexer:
+  input_col: "container_type"
+  output_col: "container_type_index"
+
+vector_assembler:
+  input_cols: ["container_type_index", "arrival_volume", "weather_index", "holiday_flag"]
+  output_col: "features"
+
+# Model Training
+random_forest:
+  features_col: "features"
+  label_col: "future_volume"
+  num_trees: 50
+  prediction_col: "prediction"
+
+# Model Evaluation
+evaluator:
+  metric_name_rmse: "rmse"
+  metric_name_r2: "r2"
